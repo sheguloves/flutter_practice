@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:note_demo/services/localstorage.dart';
+import 'package:note_demo/components/note_page/note_item.dart';
+import 'package:note_demo/services/local_storage.dart';
 import 'package:uuid/uuid.dart';
 
-import '../models/note.dart';
+import '../../models/note.dart';
 
 class NotePage extends StatefulWidget {
 
@@ -48,11 +49,7 @@ class NotePageState extends State<NotePage> {
           children: _notes.map((note) {
             return Column(
               children: [
-                ListTile(
-                  key: Key(note.id),
-                  title: Text(note.title),
-                  tileColor: Colors.deepPurple.shade400,
-                ),
+                NoteItem(note: note),
                 const Divider(height: 10),
               ],
             );

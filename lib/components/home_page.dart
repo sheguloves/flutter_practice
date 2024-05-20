@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:note_demo/components/favorite-page.dart';
-import 'package:note_demo/components/note-page.dart';
+import 'package:note_demo/components/favorite_page.dart';
+import 'package:note_demo/components/note_page/note_page.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -13,11 +13,17 @@ class HomePage extends StatefulWidget {
 class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin {
 
   late TabController _controller;
+  int _index = 0;
 
   @override
   void initState() {
     super.initState();
     _controller = TabController(length: 2, vsync: this);
+    _controller.addListener(() {
+      setState(() {
+        _index = _controller.index;
+      });
+    });
   }
 
   @override
@@ -25,6 +31,15 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            tooltip: 'Open shopping cart',
+            onPressed: () {
+                // handle the press
+            },
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -39,7 +54,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _controller.index,
+        currentIndex: _index,
         onTap: (index) {
           setState(() {
             _controller.index = index;
