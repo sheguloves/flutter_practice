@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:note_demo/components/favorite_page.dart';
 import 'package:note_demo/components/note_page/note_page.dart';
+import 'package:note_demo/models/global_context.dart';
+import 'package:provider/provider.dart';
+
+import '../models/notes.dart';
 
 class HomePage extends StatefulWidget {
 
-  const HomePage({ super.key });
+  const HomePage({ required this.showDelete, super.key });
+
+  final bool showDelete;
 
   @override
   HomePageState createState() => HomePageState();
@@ -27,30 +33,38 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
-        actions: <Widget>[
-          IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            tooltip: 'Open shopping cart',
+        actions: widget.showDelete ? <Widget>[
+          TextButton(
             onPressed: () {
-                // handle the press
+              final globalContext = context.read<GlobalContext>();
+              globalContext.turnOffDelete();
             },
+            child: const Text('Cancel'),
           ),
-        ],
+          TextButton( 
+            onPressed: () {
+            },
+            child: const Text('Delete'),
+          ),
+        ] : [],
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Colors.deepPurple.shade50,
-        ),
-        child: TabBarView(
-          controller: _controller,
-          children: <Widget>[
-            NotePage(),
-            const FavoritePage(),
-          ],
+      body: GestureDetector(
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.deepPurple.shade50,
+          ),
+          child: TabBarView(
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _controller,
+            children: <Widget>[
+              NotePage(),
+              const FavoritePage(),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(

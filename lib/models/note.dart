@@ -8,6 +8,7 @@ class Note {
   final String id;
   final String title;
   final String content;
+  bool selected = false;
 
   Note.fromJson(Map<String, dynamic> json)
       : id = json['id'] as String,
