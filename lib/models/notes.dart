@@ -4,13 +4,8 @@ import 'package:note_demo/services/local_storage.dart';
 import 'package:uuid/uuid.dart';
 
 class Notes with ChangeNotifier {
-  Notes() {
-    _storage.readNotes().then((value) {
-      if (value.isNotEmpty) {
-        _notes.clear();
-        _notes.addAll(value);
-      }
-    });
+  Notes(List<Note> initialNotes) {
+    _notes.addAll(initialNotes);
   }
 
   final _uuid = const Uuid();
