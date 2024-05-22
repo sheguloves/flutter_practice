@@ -5,8 +5,10 @@ import 'package:note_demo/models/note.dart';
 import 'package:provider/provider.dart';
 
 class NoteItem extends StatefulWidget {
-  const NoteItem({required this.note, super.key});
+  const NoteItem({required this.note, required this.updateCallback, super.key});
+
   final Note note;
+  final void Function(Note newNote) updateCallback;
 
   @override
   NoteItemState createState() => NoteItemState();
@@ -38,13 +40,14 @@ class NoteItemState extends State<NoteItem> {
                 final globalContext = context.read<GlobalContext>();
                 globalContext.turnOnDelete();
               },
-              onTap: () {
-                Navigator.push(
+              onTap: () async {
+                final result = await Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => NoteDetail(note: widget.note),
                   ),
                 );
+                widget.updateCallback(result);
               },
             );
       }
