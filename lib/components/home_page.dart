@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_demo/components/favorite_page.dart';
 import 'package:note_demo/components/note_page/note_page.dart';
+import 'package:note_demo/providers/note_provider.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -24,6 +26,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
         _index = _controller.index;
       });
     });
+    Provider.of<NoteProvider>(context, listen: false).getNotes();
   }
 
   @override
@@ -32,7 +35,7 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
-        actions: [],
+        actions: const [],
       ),
       body: GestureDetector(
         child: Container(
@@ -42,9 +45,9 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
           child: TabBarView(
             physics: const NeverScrollableScrollPhysics(),
             controller: _controller,
-            children: <Widget>[
+            children: const <Widget>[
               NotePage(),
-              const FavoritePage(),
+              FavoritePage(),
             ],
           ),
         ),
