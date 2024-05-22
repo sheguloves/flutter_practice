@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_demo/components/favorite_page.dart';
 import 'package:note_demo/components/note_page/note_page.dart';
-import 'package:note_demo/models/global_context.dart';
-import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
 
@@ -31,25 +29,10 @@ class HomePageState extends State<HomePage> with SingleTickerProviderStateMixin 
   @override
   Widget build(BuildContext context) {   
 
-    final globalContext = context.watch<GlobalContext>();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Notes'),
-        actions: globalContext.showDelete ? <Widget>[
-          TextButton(
-            onPressed: () {
-              final globalContext = context.read<GlobalContext>();
-              globalContext.turnOffDelete();
-            },
-            child: const Text('Cancel'),
-          ),
-          TextButton( 
-            onPressed: () {
-            },
-            child: const Text('Delete'),
-          ),
-        ] : [],
+        actions: [],
       ),
       body: GestureDetector(
         child: Container(

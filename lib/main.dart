@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_demo/components/home_page.dart';
-import 'package:note_demo/models/global_context.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,10 +17,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: ChangeNotifierProvider<GlobalContext>(
-        create: (context) => GlobalContext(),
-        child: const HomePage(),
-      ),
+      home: const HomePage(),
     );
   }
 }
