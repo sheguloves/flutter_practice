@@ -22,6 +22,13 @@ class NoteDetailState extends State<NoteDetail> {
     _titleController.text = widget.note.title;
   }
 
+  @override
+  void dispose() {
+    _controller.dispose();
+    _titleController.dispose();
+    super.dispose();
+  }
+
   bool changed = false;
 
   void _sync() {
