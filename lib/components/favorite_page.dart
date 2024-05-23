@@ -26,60 +26,43 @@ class FavoritePageState extends State<FavoritePage> {
           children: [
             ListView(
               children: provider.favorNotes.map((note) {
-                return Slidable(
-                  // Specify a key if the Slidable is dismissible.
-                  key: Key(note.id),
+                return Column(
+                  children: [
+                    Slidable(
+                      // Specify a key if the Slidable is dismissible.
+                      key: Key(note.id),
 
-                  // The start action pane is the one at the left or the top side.
-                  startActionPane: ActionPane(
-                    // A motion is a widget used to control how the pane animates.
-                    motion: const ScrollMotion(),
-                    // All actions are defined in the children parameter.
-                    children: [
-                      // A SlidableAction can have an icon and/or a label.
-                      SlidableAction(
-                        onPressed: (context) {
-                          provider.removeItem(note);
-                        },
-                        backgroundColor: const Color(0xFFFE4A49),
-                        foregroundColor: Colors.white,
-                        icon: Icons.delete,
-                        label: 'Delete',
+                      // The start action pane is the one at the left or the top side.
+                      startActionPane: ActionPane(
+                        // A motion is a widget used to control how the pane animates.
+                        motion: const ScrollMotion(),
+                        // All actions are defined in the children parameter.
+                        children: [
+                          // A SlidableAction can have an icon and/or a label.
+                          SlidableAction(
+                            onPressed: (context) {
+                              provider.removeItem(note);
+                            },
+                            backgroundColor: const Color(0xFFFE4A49),
+                            foregroundColor: Colors.white,
+                            icon: Icons.delete,
+                            label: 'Delete',
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
 
-                  // The end action pane is the one at the right or the bottom side.
-                  endActionPane: ActionPane(
-                    motion: const ScrollMotion(),
-                    children: [
-                      SlidableAction(
-                        onPressed: (context) {
-                          provider.markFavor(note);
-                        },
-                        backgroundColor: const Color(0xFF7BC043),
-                        foregroundColor: note.favorite ? Colors.deepPurpleAccent : Colors.white,
-                        icon: Icons.favorite,
-                        label: 'Favorite',
-                      ),
-                    ],
-                  ),
-
-                  // The child of the Slidable is what the user sees when the
-                  // component is not dragged.
-                  child: NoteItem(note: note, updateCallback: (newNote) {
-                    provider.updateNote(note, newNote);
-                  }),
+                      // The child of the Slidable is what the user sees when the
+                      // component is not dragged.
+                      child: NoteItem(note: note, updateCallback: (newNote) {
+                        if (newNote != null) {
+                          provider.updateNote(note, newNote);
+                        }
+                      }),
+                    ),
+                    const Divider(),
+                  ],
                 );
               }).toList(),
-            ),
-            Positioned(
-              right: 10,
-              bottom: 10,
-              child: FloatingActionButton(
-                onPressed: provider.addNewItem,
-                child: const Icon(Icons.add),
-              ),
             ),
           ],
         );

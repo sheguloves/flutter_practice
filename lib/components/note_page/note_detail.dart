@@ -22,63 +22,70 @@ class NoteDetailState extends State<NoteDetail> {
     _titleController.text = widget.note.title;
   }
 
+  bool changed = false;
+
+  void _sync() {
+    setState(() {
+      changed = _controller.text.isNotEmpty
+        || (_titleController.text.isNotEmpty && _titleController.text != 'Untitled');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) {
-        if (!didPop) {
-          Navigator.pop(context, widget.note);
-        }
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: TextField(
-            textAlign: TextAlign.center,
-            maxLines: 1,
-            controller: _titleController,
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: TextField(
+          textAlign: TextAlign.center,
+          maxLines: 1,
+          controller: _titleController,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
           ),
-          actions: [
-            TextButton( 
-              onPressed: () {
-                Navigator.pop(context, Note(
-                  id: widget.note.id,
-                  title: _titleController.text,
-                  content: _controller.text,
-                ));
-              },
-              child: const Text('Save'),
+          onChanged: (value) {
+            _sync();
+          },
+        ),
+        actions: changed ? [
+          TextButton( 
+            onPressed: () {
+              Navigator.pop(context, Note(
+                id: widget.note.id,
+                title: _titleController.text,
+                content: _controller.text,
+              ));
+            },
+            child: const Text('Save'),
+          ),
+        ] : [],
+      ),
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.deepPurple.shade50,
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: TextField(
+                  onChanged: (value) {
+                    _sync();
+                  },
+                  decoration: const InputDecoration(
+                    border: InputBorder.none,
+                  ),
+                  autofocus: true,
+                  expands: true,
+                  minLines: null,
+                  maxLines: null,
+                  controller: _controller,
+                ),
+              ),
             ),
           ],
         ),
-        body: Container(
-          decoration: BoxDecoration(
-            color: Colors.deepPurple.shade50,
-          ),
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: TextField(
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                    ),
-                    autofocus: true,
-                    expands: true,
-                    minLines: null,
-                    maxLines: null,
-                    controller: _controller,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      )
+      ),
     );
   }
 }

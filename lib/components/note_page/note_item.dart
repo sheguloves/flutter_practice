@@ -9,7 +9,7 @@ class NoteItem extends StatefulWidget {
   const NoteItem({required this.note, required this.updateCallback, super.key});
 
   final Note note;
-  final void Function(Note newNote) updateCallback;
+  final void Function(Note? newNote) updateCallback;
 
   @override
   NoteItemState createState() => NoteItemState();

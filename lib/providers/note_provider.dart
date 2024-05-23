@@ -23,8 +23,8 @@ class NoteProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addNewItem() {
-    notes.add(Note(id: _uuid.v1(), title: 'test generated', content: ''));
+  void addNewItem(String title, String content) {
+    notes.add(Note(id: _uuid.v1(), title: title, content: content));
     _syncFavor();
     service.writeNotes(notes);
     notifyListeners();
